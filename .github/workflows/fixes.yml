@@ -9,10 +9,13 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v2
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8
+
       - name: Code Quality Fixes
         run: |
           composer install --prefer-dist --no-progress --no-suggest
@@ -29,9 +32,6 @@ jobs:
         id: current_branch
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v2.3.0
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply Quality & Style Fixes
-          branch: ${{ steps.current_branch.outputs.branch }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
