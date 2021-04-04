@@ -30,6 +30,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           fi
+
       - name: Set up Docker Buildx
         uses: crazy-max/ghaction-docker-buildx@v3
 
@@ -41,7 +42,6 @@ jobs:
 
       - name: Build and Publish
         id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v3
         run: |
           docker buildx build \
             --push
