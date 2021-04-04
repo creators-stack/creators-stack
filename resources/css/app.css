@@ -1,0 +1,19 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import '~lightgallery.js/dist/css/lightgallery.css';
+@import '~video.js/dist/video-js.css';
+@import '~highlight.js/styles/darcula.css';
+
+.no_default {
+    @apply border-0 focus:shadow-none focus:ring-0 focus:outline-none;
+}
+
+[x-cloak] {
+    display: none;
+}
+
+.lazy-load {
+    background-color: #ebf4ff;
+}

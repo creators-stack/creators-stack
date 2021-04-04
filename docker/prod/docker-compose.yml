@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  creators_stack:
+    image: creators_stack:latest
+    networks:
+      - creators_net
+    ports:
+      - '7667:80'
+    environment:
+      APP_URL: 'http://server_ip:7667'
+      APP_TIMEZONE: 'Asia/Tokyo'
+    volumes:
+      - '/creators/data:/data:ro'
+      - '/generated/data:/var/www/html/storage/app/public'
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: 'creators_stack'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'creators_mysql:/var/lib/mysql'
+    networks:
+      - creators_net
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '--silent']
+      interval: '5s'
+  redis:
+    image: redis:latest
+    volumes:
+      - 'creators_redis:/data'
+    networks:
+      - creators_net
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+networks:
+  creators_net:
+    driver: bridge
+volumes:
+  creators_redis:
+    driver: local
+  creators_mysql:
+    driver: local
