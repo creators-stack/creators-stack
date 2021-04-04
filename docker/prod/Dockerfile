@@ -16,7 +16,7 @@ RUN apt-get install -y sudo supervisor cron nginx mariadb-client gnupg gosu curl
     libcap2-bin libpng-dev ffmpeg libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 
 RUN docker-php-ext-install pdo_mysql
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
 RUN pecl install -o -f redis && rm -rf /tmp/pear && docker-php-ext-enable redis
 
 RUN echo '* * * * *   root   cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' >> /etc/crontab
