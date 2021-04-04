@@ -1,3 +1,10 @@
+<p align="center"><img src="https://raw.githubusercontent.com/creators-stack/creators-stack/master/resources/svg/logo.svg" width="420" height="420"></p>
+
+<p align="center">
+<a href="https://github.com/creators-stack/creators-stack/actions/workflows/tests.yml"><img src="https://github.com/creators-stack/creators-stack/actions/workflows/tests.yml/badge.svg?branch=master" alt="Tests status"></a>
+<a href="https://github.com/creators-stack/creators-stack/actions/workflows/docker.yml"><img src="https://github.com/creators-stack/creators-stack/actions/workflows/docker.yml/badge.svg?branch=master" alt="Docker Build Status"></a>
+</p>
+
 ## Creators Stack
 
 Creators Stack is a web app that let you organize your creators Images and Videos in one place
