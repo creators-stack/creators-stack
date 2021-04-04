@@ -1,6 +1,8 @@
 name: Code Quality & Style Fixes
 on:
-  - push
+  push:
+    branches:
+     - master
 
 jobs:
   fixes:
