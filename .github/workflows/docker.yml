@@ -10,14 +10,14 @@ on:
     tags:
       - v*
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
         run: docker build . --file docker/prod/Dockerfile
-  push:
-    needs: test
+  publish:
+    needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
