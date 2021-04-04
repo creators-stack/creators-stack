@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+if [[ ! -z "$APP_TIMEZONE" ]]; then
+    ln -snf /usr/share/zoneinfo/$APP_TIMEZONE /etc/localtime && echo $APP_TIMEZONE > /etc/timezone
+fi
+
+if  [[ ! -d /data ]]; then
+    echo "/data directory does not exists ! Make sure it is mounted correctly"
+    exit 1
+fi
+
+sudo -u www-data composer dump-autoload --optimize --apcu --no-dev
+
+sudo -u www-data php artisan migrate --seed --force
+sudo -u www-data php artisan key:generate --force
+sudo -u www-data php artisan storage:link
+
+sudo -u www-data php artisan config:clear
+
+if [[ ! -z "$APP_URL" ]]; then
+	sudo -u www-data php artisan env:set APP_URL $APP_URL
+fi
+
+if [[ ! -z "$APP_TIMEZONE" ]]; then
+	sudo -u www-data php artisan env:set APP_TIMEZONE $APP_TIMEZONE
+fi
+
+sudo -u www-data php artisan config:cache
+sudo -u www-data php artisan route:cache
+sudo -u www-data php artisan view:cache
+
+$@

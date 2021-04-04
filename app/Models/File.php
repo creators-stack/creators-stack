@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
+
+/**
+ * Class File.
+ *
+ * @property int id
+ * @property string path
+ * @property string filename
+ * @property string hash
+ * @property string thumbnail
+ * @property string preview
+ * @property int content_type_id
+ * @property int creator_id
+ * @property int size
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
+class File extends Model
+{
+    public const PREVIEW_WIDTH = 896;
+    public const PREVIEW_HEIGHT = 504;
+
+    protected $fillable = [
+        'hash',
+    ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(Creator::class, 'creator_id', 'id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function contentType(): BelongsTo
+    {
+        return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeImages(Builder $query)
+    {
+        return $query->where('content_type_id', ContentType::IMAGE);
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeVideos(Builder $query)
+    {
+        return $query->where('content_type_id', ContentType::VIDEO);
+    }
+}

@@ -1,0 +1,15 @@
+node_modules
+/vendor
+storage/*.key
+public/*
+!public/favicon.svg
+!public/favicon.ico
+!public/index.php
+!public/robots.txt
+**.log
+**.pid
+/data
+.env
+.phpunit.result.cache
+.idea
+.php_cs.cache

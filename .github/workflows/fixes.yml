@@ -1,0 +1,38 @@
+name: Code Quality & Style Fixes
+on:
+  push:
+    branches:
+     - master
+
+jobs:
+  fixes:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8
+
+      - name: Code Quality Fixes
+        run: |
+          composer install --prefer-dist --no-progress --no-suggest
+          php artisan insights -n --ansi --format=github-action --fix
+
+      - name: Code Style Fixes
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --allow-risky=yes
+
+      - name: Get branch
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: current_branch
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply Quality & Style Fixes
