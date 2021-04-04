@@ -41,9 +41,6 @@ jobs:
       - name: Build and Publish
         id: buildx
         uses: crazy-max/ghaction-docker-buildx@v3
-        with:
-          version: latest
-            - name: build the image
         run: |
           docker buildx build \
             --push
