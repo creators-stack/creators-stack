@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/creators-stack/creators-stack/master/resources/svg/logo.svg" width="420" height="420"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/creators-stack/creators-stack/master/resources/svg/logo.svg" width="210" height="210"></p>
 
 <p align="center">
 <a href="https://github.com/creators-stack/creators-stack/actions/workflows/tests.yml"><img src="https://github.com/creators-stack/creators-stack/actions/workflows/tests.yml/badge.svg?branch=master" alt="Tests status"></a>
