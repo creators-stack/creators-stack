@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Creator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class CreatorObserver
@@ -19,13 +20,6 @@ class CreatorObserver
             Storage::disk('public')->delete($creator->profile_picture);
         }
 
-        foreach ($creator->files as $file) {
-            if ($file->thumbnail) {
-                Storage::disk('public')->delete($file->thumbnail);
-            }
-            if ($file->preview) {
-                Storage::disk('public')->delete($file->preview);
-            }
-        }
+        $creator->files()->chunk(200, fn(Collection $files) => $files->each->delete());
     }
 }

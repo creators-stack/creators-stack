@@ -25,8 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('files:prune')
+            ->hourly();
+
         /**
-         * Commented while there is no way to track failed jobs and such
+         * Commented while there is no way to track failed jobs and such (Videos to short for generating previews...)
          */
 //        $schedule->command('crawl:files')
 //            ->everyFifteenMinutes()
