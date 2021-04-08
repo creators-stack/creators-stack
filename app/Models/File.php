@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class File.
@@ -26,6 +28,7 @@ class File extends Model
 {
     public const PREVIEW_WIDTH = 896;
     public const PREVIEW_HEIGHT = 504;
+    public const MIME_TYPE_CACHE_KEY = 'MIME_TYPE_';
 
     protected $fillable = [
         'hash',
@@ -45,6 +48,13 @@ class File extends Model
     public function contentType(): BelongsTo
     {
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
+    }
+
+    public function getMimeTypeAttribute()
+    {
+        return Cache::rememberForever(self::MIME_TYPE_CACHE_KEY.$this->id, function () {
+            return Storage::disk('content')->mimeType($this->path);
+        });
     }
 
     /**

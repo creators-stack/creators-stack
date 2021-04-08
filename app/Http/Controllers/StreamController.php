@@ -43,7 +43,7 @@ class StreamController extends BaseController
             abort(500);
         }
 
-        $status = $this->setStreamHeaders();
+        $status = $this->setStreamHeaders($file);
 
         if ($status !== 206) {
             return response()->noContent($status, $this->headers);
@@ -52,9 +52,9 @@ class StreamController extends BaseController
         return response()->stream(fn () => $this->partialStream(), $status, $this->headers);
     }
 
-    private function setStreamHeaders(): int
+    private function setStreamHeaders(File $file): int
     {
-        $this->headers['Content-Type'] = sprintf('video/%s', Str::afterLast($this->path, '.') ?? 'mp4');
+        $this->headers['Content-Type'] = $file->mimeType;
         $this->headers['Accept-Ranges'] = sprintf('0-%d', $this->end);
 
         $request = request();
