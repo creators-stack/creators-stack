@@ -44,7 +44,7 @@ class pruneMissingFilesCommand extends Command
         $disk = Storage::disk('content');
         $total = 0;
 
-        File::chunk(200, function(Collection $files) use ($disk, &$total) {
+        File::chunk(200, function (Collection $files) use ($disk, &$total) {
             $total += $files->count();
 
             foreach ($files as $file) {

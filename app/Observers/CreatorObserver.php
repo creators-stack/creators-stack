@@ -20,6 +20,6 @@ class CreatorObserver
             Storage::disk('public')->delete($creator->profile_picture);
         }
 
-        $creator->files()->chunk(200, fn(Collection $files) => $files->each->delete());
+        $creator->files()->chunk(200, fn (Collection $files) => $files->each->delete());
     }
 }
