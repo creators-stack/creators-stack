@@ -8,6 +8,8 @@ services:
     ports:
       - '7667:80'
     environment:
+      PUID: 1000
+      PGID: 1000
       APP_URL: 'http://server_ip:7667'
       APP_TIMEZONE: 'Asia/Tokyo'
     volumes:

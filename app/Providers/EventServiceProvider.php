@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Creator;
+use App\Models\File;
 use App\Observers\CreatorObserver;
+use App\Observers\FileObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -24,5 +26,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Creator::observe(CreatorObserver::class);
+        File::observe(FileObserver::class);
     }
 }

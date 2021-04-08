@@ -75,7 +75,7 @@ class CrawlFilesCommand extends Command
 
         $this->line(sprintf('Crawling %d creators files', $this->creators->count()));
 
-        $this->creators->each(Closure::fromCallable([$this, 'feedCreatorFiles']));
+        $this->creators->each(Closure::fromCallable([$this, 'crawlFiles']));
 
         $this->setJobs();
         $this->dispatchJobs();
@@ -92,23 +92,6 @@ class CrawlFilesCommand extends Command
             ->whereNull('cancelled_at')
             ->whereNull('finished_at')
             ->count() > 0;
-    }
-
-    /**
-     * @param Creator $creator
-     */
-    protected function feedCreatorFiles(Creator $creator)
-    {
-        $this->crawlFiles($creator);
-
-        $old_files = $creator->files()->pluck('path');
-        $new_files = $this->files->get($creator->username);
-
-        $removed_files = $old_files->diff($new_files);
-
-        if ($removed_files->isNotEmpty()) {
-            $creator->files()->where('path', 'in', $removed_files)->delete();
-        }
     }
 
     /**
