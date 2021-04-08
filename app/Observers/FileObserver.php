@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\File;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class FileObserver
@@ -21,5 +22,7 @@ class FileObserver
         if ($file->preview) {
             Storage::disk('public')->delete($file->preview);
         }
+
+        Cache::forget(File::MIME_TYPE_CACHE_KEY.$file->id);
     }
 }

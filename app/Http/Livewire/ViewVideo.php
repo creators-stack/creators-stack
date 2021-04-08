@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\ContentType;
 use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class ViewVideo extends Component
