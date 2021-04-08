@@ -33,10 +33,6 @@ class EditCreator extends Component
     {
         $this->creator = $creator;
         $this->path = $this->creator->root_folder;
-
-        if ($this->creator->exists) {
-            $this->rules['path'] .= sprintf(',%d', $this->creator->id);
-        }
     }
 
     public function render()
@@ -48,6 +44,10 @@ class EditCreator extends Component
     {
         $path = $this->path;
         $this->path = Str::trimSlashes($this->path);
+
+        if ($this->creator->exists) {
+            $this->rules['path'] .= sprintf(',%d', $this->creator->id);
+        }
 
         try {
             $this->validate();

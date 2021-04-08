@@ -5,7 +5,7 @@
                 <div>
                     <x-jet-application-logo class="block h-12 w-auto" />
                 </div>
-                <div class="ml-5 text-3xl">Creators Stash</div>
+                <div class="ml-5 text-3xl">Creators Stack</div>
                 <p class="ml-2 text-sm">V{{ config('app.version') }}</p>
             </div>
             <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-3">
