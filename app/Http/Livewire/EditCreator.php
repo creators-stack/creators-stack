@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Jobs\GenerateProfileThumbnail;
 use App\Models\Creator;
 use App\Traits\ContentPathAutocompletion;
 use Illuminate\Support\Str;
@@ -25,8 +26,8 @@ class EditCreator extends Component
     protected array $rules = [
         'creator.name' => 'required|string|max:255',
         'creator.username' => 'required|string|max:255',
-        'profile_picture' => 'nullable|image',
         'path' => 'required|string|max:255|content_path|unique:creators,root_folder',
+        'profile_picture' => 'nullable|image',
     ];
 
     public function mount(Creator $creator)
@@ -60,12 +61,17 @@ class EditCreator extends Component
         $this->path = $path;
         $this->creator->root_folder = $this->path;
 
-        if ($this->profile_picture) {
-            $this->creator->profile_picture = $this->profile_picture->store('thumbnails/profile_pictures/', $disk = 'public');
-        }
-
         $this->creator->save();
 
+        if ($this->profile_picture) {
+            GenerateProfileThumbnail::dispatchSync($this->creator, $this->profile_picture->getRealPath());
+        }
+
         $this->redirectRoute('creators.view', $this->creator);
+    }
+
+    protected function updatedProfilePicture()
+    {
+        $this->validateOnly('profile_picture');
     }
 }

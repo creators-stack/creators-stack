@@ -30,7 +30,7 @@ RUN apt-get clean
 RUN rm -rf /var/lib/apt-get/lists/* /tmp/* /var/tmp/*
 
 COPY ./docker/prod/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./docker/prod/php.ini /usr/local/etc/php/conf.d/local.ini
+COPY ./docker/prod/php.ini $PHP_INI_DIR/php.ini
 COPY ./docker/prod/nginx.conf /etc/nginx/sites-enabled/default
 
 RUN mkdir /var/www/.npm && chown -R www-data:www-data /var/www/.npm

@@ -25,7 +25,7 @@ class GenerateProfileThumbnail implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function __construct(protected Creator $creator, protected File $file)
+    public function __construct(protected Creator $creator, protected string $file_path)
     {
     }
 
@@ -46,16 +46,14 @@ class GenerateProfileThumbnail implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $full_path = Storage::disk('content')->path($this->file->path);
-
-        $stream = Image::make($full_path)
-            ->fit(File::PREVIEW_HEIGHT, File::PREVIEW_WIDTH)
-            ->encode('jpg');
-
         $thumbnail_name = md5(uniqid('hash', ''));
-        $thumbnail_path = 'thumbnails/profile_pictures/'.$thumbnail_name.'.jpg';
+        $thumbnail_path = 'thumbnails/profile_pictures/' . $thumbnail_name . '.jpg';
 
-        Storage::disk('public')->put($thumbnail_path, $stream);
+        $final_path = Storage::disk('public')->path($thumbnail_path);
+
+        Image::make($this->file_path)
+            ->fit(File::PREVIEW_HEIGHT, File::PREVIEW_WIDTH)
+            ->save($final_path, 90, 'jpg');
 
         $this->creator->profile_picture = $thumbnail_path;
         $this->creator->save();

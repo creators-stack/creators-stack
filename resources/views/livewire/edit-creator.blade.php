@@ -21,21 +21,22 @@
                         <x-form.input-autocomplete
                             wire:model.defer="path"
                             class="w-full"
+                            id="path"
                             placeholder="/creator/path"
                             :label="__('Content path')"
                             :help="__('Press tab to apply suggestion')"
                         />
                     </div>
                     <div x-data>
-                        <img class="width:auto max-h-1/2" src="{{ $profile_picture ? $profile_picture->temporaryUrl() : $creator->profilePictureUrl() }}">
+                        <img class="width:auto max-h-1/2 object-cover" src="{{ $profile_picture ? $profile_picture->temporaryUrl() : $creator->profilePictureUrl() }}">
                         <div class="inline-flex flex-col">
                             <input class="mt-2 hidden" type="file" accept="image/x-png,image/gif,image/jpeg" wire:model="profile_picture" x-ref="profile_picture">
                             <x-jet-secondary-button class="mt-2 mr-2 w-auto" type="button" @click="$refs.profile_picture.click()">
                                 {{ __('Select A New Profile Picture') }}
                             </x-jet-secondary-button>
-
-                            @error('creator.profile_picture')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                            <p wire:loading wire:target="profile_picture">{{ __('Uploading...') }}</p>
+                            @error('profile_picture')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>

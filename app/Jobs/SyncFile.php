@@ -60,7 +60,6 @@ class SyncFile implements ShouldQueue
         }
 
         $this->settings = App::make(Settings::class);
-        $this->creator = Creator::findOrFail($this->creator_id);
 
         if (FileSystemHelper::isImage($this->settings, $this->disk, $this->path)) {
             $content_type_id = ContentType::IMAGE;
@@ -71,6 +70,7 @@ class SyncFile implements ShouldQueue
             return;
         }
 
+        $this->creator = Creator::findOrFail($this->creator_id);
         $file = $this->getFile($content_type_id);
 
         switch ($content_type_id) {
@@ -126,7 +126,7 @@ class SyncFile implements ShouldQueue
     protected function syncImage(File $file): void
     {
         if (! $this->creator->profile_picture) {
-            GenerateProfileThumbnail::dispatchSync($this->creator, $file);
+            GenerateProfileThumbnail::dispatchSync($this->creator, Storage::disk('content')->path($file->path));
         }
 
         if (! $file->thumbnail) {
