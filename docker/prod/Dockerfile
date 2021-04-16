@@ -29,14 +29,14 @@ RUN apt-get -y autoremove
 RUN apt-get clean
 RUN rm -rf /var/lib/apt-get/lists/* /tmp/* /var/tmp/*
 
-COPY ./docker/prod/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./docker/prod/php.ini $PHP_INI_DIR/php.ini
-COPY ./docker/prod/nginx.conf /etc/nginx/sites-enabled/default
-
 RUN mkdir /var/www/.npm && chown -R www-data:www-data /var/www/.npm
 RUN mkdir /var/www/.composer/ && chown -R www-data:www-data /var/www/.composer/
 
 COPY --chown=www-data ./ ./
+
+RUN cp ./docker/prod/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN cp ./docker/prod/nginx.conf /etc/nginx/sites-enabled/default
+RUN cp ./docker/prod/php.ini "$PHP_INI_DIR/php.ini"
 
 RUN sudo -u www-data composer install --quiet --no-dev --no-autoloader --no-interaction --no-progress
 RUN sudo -u www-data npm install --quiet
