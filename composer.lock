@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "55f70eba32d1510ca7dfab5647d95e6d",
+    "content-hash": "b604c53c86b8e2a6ee4da52732be15ca",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -2644,6 +2644,91 @@
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
             "time": "2020-12-06T15:14:20+00:00"
+        },
+        {
+            "name": "pbmedia/laravel-ffmpeg",
+            "version": "7.5.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/protonemedia/laravel-ffmpeg.git",
+                "reference": "d3c3b77e5de08d4038ebcb9e9d405d51ec8ce2f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/protonemedia/laravel-ffmpeg/zipball/d3c3b77e5de08d4038ebcb9e9d405d51ec8ce2f9",
+                "reference": "d3c3b77e5de08d4038ebcb9e9d405d51ec8ce2f9",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0",
+                "illuminate/bus": "^6.0|^7.0|^8.0",
+                "illuminate/config": "^6.0|^7.0|^8.0",
+                "illuminate/filesystem": "^6.0|^7.0|^8.0",
+                "illuminate/log": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "league/flysystem": "^1.0.34",
+                "php": "^7.3|^8.0",
+                "php-ffmpeg/php-ffmpeg": "^0.17.0|^0.18.0"
+            },
+            "require-dev": {
+                "league/flysystem-memory": "^1.0",
+                "mockery/mockery": "^1.3.3",
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|9.4.*",
+                "spatie/image": "^1.7",
+                "twistor/flysystem-http": "^0.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ProtoneMedia\\LaravelFFMpeg\\Support\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "FFMpeg": "ProtoneMedia\\LaravelFFMpeg\\Support\\FFMpeg"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ProtoneMedia\\LaravelFFMpeg\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "homepage": "https://protone.media",
+                    "role": "Developer"
+                }
+            ],
+            "description": "FFMpeg for Laravel",
+            "homepage": "https://github.com/pascalbaljetmedia/laravel-ffmpeg",
+            "keywords": [
+                "ffmpeg",
+                "laravel",
+                "laravel-ffmpeg",
+                "pascal baljet media",
+                "pascalbaljetmedia",
+                "pbmedia",
+                "protone media",
+                "protonemedia"
+            ],
+            "support": {
+                "issues": "https://github.com/protonemedia/laravel-ffmpeg/issues",
+                "source": "https://github.com/protonemedia/laravel-ffmpeg/tree/7.5.10"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pascalbaljet",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-31T14:18:52+00:00"
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
@@ -10642,5 +10727,5 @@
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

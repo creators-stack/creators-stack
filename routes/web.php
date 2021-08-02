@@ -61,8 +61,5 @@ Route::middleware('auth:web')->group(function () {
 
         Route::get('/{hash}', ViewVideo::class)
             ->name('video');
-
-        Route::get('/stream/{file:hash}', [FileController::class, 'streamVideo'])
-            ->name('stream');
     });
 });

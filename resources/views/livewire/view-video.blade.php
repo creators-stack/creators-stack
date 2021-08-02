@@ -10,7 +10,7 @@
                         preload="none"
                         poster="{{ asset('storage/'.$video->thumbnail) }}"
                         data-setup='{}'>
-                        <source src="{{ route('stream', $video->hash) }}" type="{{ $video->mimeType }}">
+                        <source src="{{ url('/stream/'.$video->path) }}" type="{{ $video->mimeType }}">
                     </video>
                 </div>
                 <div class="mt-4 grid grid-cols-3">
