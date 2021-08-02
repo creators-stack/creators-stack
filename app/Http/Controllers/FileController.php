@@ -5,25 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\ContentType;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class FileController extends StreamController
+class FileController extends Controller
 {
     /**
      * @param File $file
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function serveFile(File $file)
+    public function serveFile(File $file): BinaryFileResponse
     {
         return response()->file(Storage::disk('content')->path($file->path));
-    }
-
-    public function streamVideo(File $file)
-    {
-        if ($file->content_type_id !== ContentType::VIDEO) {
-            abort(404);
-        }
-
-        return $this->stream($file);
     }
 }
