@@ -13,15 +13,18 @@
                         <source src="{{ url('/stream/'.$video->path) }}" type="{{ $video->mimeType }}">
                     </video>
                 </div>
-                <div class="mt-4 grid grid-cols-3">
+                <div class="mt-4 flex justify-between">
                     <a href="{{ route('creators.view', $video->creator) }}">
                         <img class="rounded-full w-16 h-16 object-cover"
                              src="{{ $video->creator->profilePictureUrl(true) }}">
                         <p class="text-gray-700 md:text-lg">{{ $video->creator->name }}</p>
                     </a>
-                    <h1 class="col-span-2 text-sm md:text-lg lg:text-2xl font-semibold text-gray-900 text-right overflow-hidden overflow-ellipsis">
-                        {{ $video->filename }}
-                    </h1>
+                    <div>
+                        <h1 class="text-sm md:text-lg lg:text-2xl font-semibold text-gray-900 text-right overflow-hidden overflow-ellipsis">
+                            {{ $video->filename }}
+                        </h1>
+                        <p class="text-sm float-right">{{ trans_choice('video.views', $video->views->count()) }}</p>
+                    </div>
                 </div>
             </div>
         </div>

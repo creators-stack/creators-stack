@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Creator;
 use App\Models\File;
+use App\Models\View;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -80,7 +82,7 @@ abstract class FileListingComponent extends Component
         $rules = [
             'search' => 'nullable|string',
             'creator_username' => 'nullable|string',
-            'sort_by' => 'nullable|string|in:created_at,updated_at,size',
+            'sort_by' => 'nullable|string|in:created_at,updated_at,size,views_count,latest_view',
             'sort_order' => 'nullable|string|in:asc,desc',
         ];
 
@@ -92,17 +94,19 @@ abstract class FileListingComponent extends Component
 
         $this->setCreator();
 
-        return File::query()->whereNotNull('thumbnail')
-            ->when($this->content_type, function (Builder $query) {
-                $query->where('content_type_id', $this->content_type);
-            })
-            ->when($this->creator, function (Builder $query) {
-                $query->where('creator_id', $this->creator->id);
-            })
-            ->when($this->search, function (Builder $query) {
-                $query->where('path', 'like', sprintf('%%%s%%', $this->search));
-            })
-            ->orderBy($this->sort_by, $this->sort_order)
+        return File::withCount('views')
+            ->whereNotNull('thumbnail')
+            ->when($this->content_type, fn (Builder $query) => $query->where('content_type_id', $this->content_type))
+            ->when($this->creator, fn (Builder $query) => $query->where('creator_id', $this->creator->id))
+            ->when($this->search, fn (Builder $query) => $query->where('path', 'like', sprintf('%%%s%%', $this->search)))
+            ->when($this->sort_by === 'latest_view', function (Builder $query) {
+                return $query->orderBy(
+                    View::select('created_at')
+                        ->whereColumn('file_id', 'files.id')
+                        ->orderByDesc('created_at')
+                        ->limit(1),
+                    $this->sort_order);
+            }, fn (Builder $query) => $query->orderBy($this->sort_by, $this->sort_order))
             ->paginate($this->per_page);
     }
 

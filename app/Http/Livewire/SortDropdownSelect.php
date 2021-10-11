@@ -38,6 +38,26 @@ class SortDropdownSelect extends Component
             'field' => 'size',
             'order' => 'asc',
         ],
+        [
+            'name' => 'Latest View',
+            'field' => 'latest_view',
+            'order' => 'desc',
+        ],
+        [
+            'name' => 'Latest View',
+            'field' => 'latest_view',
+            'order' => 'asc',
+        ],
+        [
+            'name' => 'View Count',
+            'field' => 'views_count',
+            'order' => 'desc',
+        ],
+        [
+            'name' => 'View Count',
+            'field' => 'views_count',
+            'order' => 'asc',
+        ],
     ];
 
     public function mount(string $field, string $order)
