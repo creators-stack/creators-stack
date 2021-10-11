@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Creator;
 use App\Traits\ContentPathAutocompletion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
@@ -37,15 +38,12 @@ class ListCreators extends Component
 
     public function render()
     {
-        $query = Creator::orderByDesc('updated_at')
+        $this->creators = Creator::orderByDesc('updated_at')
             ->withCount('images')
-            ->withCount('videos');
-
-        if (! empty($this->search)) {
-            $query->where('name', 'like', sprintf('%%%s%%', $this->search));
-        }
-
-        $this->creators = $query->paginate(20);
+            ->withCount('videos')
+            ->when($this->search, fn (Builder $query) => $query->where('name', 'like', sprintf('%%%s%%', $this->search)))
+            ->orderByDesc('updated_at')
+            ->paginate(20);
 
         return view('livewire.list-creators', [
             'creators' => $this->creators,

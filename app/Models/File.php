@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,6 +25,8 @@ use Illuminate\Support\Facades\Storage;
  * @property int size
  * @property Carbon created_at
  * @property Carbon updated_at
+ *
+ * @property Collection<View> views
  */
 class File extends Model
 {
@@ -48,6 +52,15 @@ class File extends Model
     public function contentType(): BelongsTo
     {
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function views(): HasMany
+    {
+        return $this->hasMany(View::class)
+            ->orderByDesc('created_at');
     }
 
     public function getMimeTypeAttribute()
