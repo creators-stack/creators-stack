@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\ContentType;
 use App\Models\Creator;
 use App\Models\File;
 use App\Models\View;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -22,7 +22,7 @@ abstract class FileListingComponent extends Component
     public string $sort_by = 'updated_at';
     public string $sort_order = 'desc';
 
-    protected ?int $content_type = null;
+    protected ?ContentType $content_type = null;
     protected int $per_page = 20;
 
     public function __construct($id = null)
@@ -96,7 +96,7 @@ abstract class FileListingComponent extends Component
 
         return File::withCount('views')
             ->whereNotNull('thumbnail')
-            ->when($this->content_type, fn (Builder $query) => $query->where('content_type_id', $this->content_type))
+            ->when($this->content_type, fn (Builder $query) => $query->where('content_type', $this->content_type))
             ->when($this->creator, fn (Builder $query) => $query->where('creator_id', $this->creator->id))
             ->when($this->search, fn (Builder $query) => $query->where('path', 'like', sprintf('%%%s%%', $this->search)))
             ->when($this->sort_by === 'latest_view', function (Builder $query) {

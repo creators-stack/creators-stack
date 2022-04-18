@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Console\Commands\CrawlFilesCommand;
 use App\Jobs\GenerateProfileThumbnail;
 use App\Models\Creator;
 use App\Traits\ContentPathAutocompletion;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -26,6 +28,7 @@ class EditCreator extends Component
     protected array $rules = [
         'creator.name' => 'required|string|max:255',
         'creator.username' => 'required|string|max:255',
+        'creator.url' => 'nullable|string|importable_url',
         'path' => 'required|string|max:255|content_path|unique:creators,root_folder',
         'profile_picture' => 'nullable|image',
     ];
@@ -43,22 +46,15 @@ class EditCreator extends Component
 
     public function save()
     {
-        $path = $this->path;
-        $this->path = Str::trimSlashes($this->path);
 
         if ($this->creator->exists) {
             $this->rules['path'] .= sprintf(',%d', $this->creator->id);
         }
 
-        try {
-            $this->validate();
-        } catch (ValidationException $exception) {
-            $this->path = $path;
+        $this->validate();
 
-            throw $exception;
-        }
+        $this->path = Str::trimSlashes($this->path);
 
-        $this->path = $path;
         $this->creator->root_folder = $this->path;
 
         $this->creator->save();
@@ -68,6 +64,15 @@ class EditCreator extends Component
         }
 
         $this->redirectRoute('creators.view', $this->creator);
+    }
+
+    public function goBack()
+    {
+        if ($this->creator->exists) {
+            $this->redirectRoute('creators.view', $this->creator);
+        } else {
+            $this->redirectRoute('creators');
+        }
     }
 
     protected function updatedProfilePicture()

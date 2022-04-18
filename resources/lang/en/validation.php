@@ -119,7 +119,9 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
-    'content_path' => 'The given :attribute must be a valid existing directory.',
+    // custom rules
+    'content_path' => 'The :attribute must be a valid existing directory.',
+    'importable_url' => 'The :attribute is invalid or not supported',
 
     /*
     |--------------------------------------------------------------------------

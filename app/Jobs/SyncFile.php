@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Helpers\FileSystemHelper;
-use App\Models\ContentType;
+use App\Enums\ContentType;
 use App\Models\Creator;
 use App\Models\File;
 use App\Models\Settings;
@@ -35,7 +35,6 @@ class SyncFile implements ShouldQueue
      */
     public function __construct(protected int $creator_id, protected string $path)
     {
-        $this->disk = Storage::disk('content');
     }
 
     /**
@@ -59,28 +58,28 @@ class SyncFile implements ShouldQueue
             return;
         }
 
+        $this->disk = Storage::disk('content');
         $this->settings = App::make(Settings::class);
 
-        if (FileSystemHelper::isImage($this->settings, $this->disk, $this->path)) {
-            $content_type_id = ContentType::IMAGE;
-        } elseif (FileSystemHelper::isVideo($this->settings, $this->disk, $this->path)) {
-            $content_type_id = ContentType::VIDEO;
-        } else {
+        $contentType = match (true) {
+            FileSystemHelper::isImage($this->settings, $this->disk, $this->path) => ContentType::IMAGE,
+            FileSystemHelper::isVideo($this->settings, $this->disk, $this->path) => ContentType::VIDEO,
+            default => null,
+        };
+
+
+        if (null === $contentType) {
             Log::warning(sprintf('Unrecognized file %s', $this->path));
             return;
         }
 
         $this->creator = Creator::findOrFail($this->creator_id);
-        $file = $this->getFile($content_type_id);
+        $file = $this->getFile($contentType);
 
-        switch ($content_type_id) {
-            case ContentType::IMAGE:
-                $this->syncImage($file);
-                break;
-            case ContentType::VIDEO:
-                $this->syncVideo($file);
-                break;
-        }
+        match ($contentType) {
+            ContentType::IMAGE => $this->syncImage($file),
+            ContentType::VIDEO => $this->syncVideo($file),
+        };
     }
 
     /**
@@ -96,18 +95,18 @@ class SyncFile implements ShouldQueue
     }
 
     /**
-     * @param int $content_type_id
-     *
+     * @param ContentType $contentType
      * @return File
      */
-    protected function getFile(int $content_type_id): File
+    protected function getFile(ContentType $contentType): File
     {
         $file = File::firstOrNew([
             'path' => $this->path,
         ]);
 
         $file->creator()->associate($this->creator);
-        $file->content_type_id = $content_type_id;
+
+        $file->content_type = $contentType;
         $file->path = $this->path;
         $file->size = $this->disk->size($this->path);
         $file->filename = Str::afterLast($this->path, DIRECTORY_SEPARATOR);

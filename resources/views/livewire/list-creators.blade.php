@@ -4,8 +4,11 @@
             <div class="py-5 flex flex-col md:flex-row justify-between content-center items-center space-y-5 md:space-y-0">
                 <x-search wire:model.debounce.250ms="search" :placeholder="__('Search')" class="ml-4 md:ml-10 px-5 pr-16"/>
                 <div class="flex justify-center items-center">
-                    <x-jet-secondary-button wire:click="$toggle('opened')" type="button" class="mr-4">
-                        {{ __('Create From Disk') }}
+                    <x-jet-secondary-button wire:click="$emitTo('import-creator-from-url', 'toggleModal')" type="button" class="mr-4">
+                        {{ __('Import From URL') }}
+                    </x-jet-secondary-button>
+                    <x-jet-secondary-button wire:click="$emitTo('import-creator-from-disk', 'toggleModal')" type="button" class="mr-4">
+                        {{ __('Mass Import From Disk') }}
                     </x-jet-secondary-button>
                     <a href="{{ route('creators.create') }}">
                         <x-jet-secondary-button type="button" class="mr-4">
@@ -14,36 +17,8 @@
                     </a>
                 </div>
             </div>
-            <form wire:submit.prevent="createFromDisk">
-                <x-jet-dialog-modal wire:model="opened">
-                    <x-slot name="title">
-                        {{ __('Create Creators From Disk') }}
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <div class="text-gray-700 text-sm">
-                            <p>{{ __('Enter the root path of your creators, one creator will be created per folder in the given path') }}</p>
-                            <p>{{ __('You can then crawl creators files and generate thumbnails / previews from the settings') }}</p>
-                        </div>
-                        <x-form.input-autocomplete
-                            wire:model.defer="path"
-                            class="w-full"
-                            placeholder="/creators_path"
-                            :label="__('Creators path')"
-                            :help="__('Press tab to apply suggestion')"
-                        />
-                    </x-slot>
-
-                    <x-slot name="footer">
-                        <x-jet-secondary-button wire:click="$toggle('opened')" wire:loading.attr="disabled">
-                            {{ __('Cancel') }}
-                        </x-jet-secondary-button>
-                        <x-jet-button class="mr-4">
-                            {{ __('Create') }}
-                        </x-jet-button>
-                    </x-slot>
-                </x-jet-dialog-modal>
-            </form>
+            @livewire('import-creator-from-disk')
+            @livewire('import-creator-from-url')
             @if ($creators->isNotEmpty())
                 <div class="flex flex-wrap">
                     @foreach($creators as $creator)

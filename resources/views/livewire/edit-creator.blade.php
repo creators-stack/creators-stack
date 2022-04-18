@@ -18,6 +18,14 @@
                             :label=" __('Username')"
                             :errors="$errors"
                         />
+                        <x-form.input
+                            wire:model.defer="creator.url"
+                            class="md:w-2/3"
+                            id="creator.url"
+                            :label=" __('URL')"
+                            :help="__('Used to import data from a remote url')"
+                            :errors="$errors"
+                        />
                         <x-form.input-autocomplete
                             wire:model.defer="path"
                             class="w-full"
@@ -41,9 +49,12 @@
                         </div>
                     </div>
                 </div>
-                <x-jet-button>
+                <x-jet-button wire:loading.attr="disabled">
                     {{ __('Save') }}
                 </x-jet-button>
+                <x-jet-secondary-button wire:click="goBack" wire:loading.attr="disabled">
+                    {{ __('Cancel') }}
+                </x-jet-secondary-button>
             </form>
         </div>
     </div>

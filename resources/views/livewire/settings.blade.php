@@ -44,6 +44,9 @@
                                             <x-icons.close wire:click="cancelBatch"
                                                            class="w-4 h-4 ml-1 cursor-pointer"/>
                                         </div>
+                                        @if ($last_batch->hasFailures())
+                                            <p class="text-left text-xs text-red-500 mt-1">{{ __(':count failed jobs', ['count' => $last_batch->failedJobs]) }}</p>
+                                        @endif
                                     </div>
                                 @endif
                             </div>

@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use App\Enums\ContentType;
 
 /**
  * Class File.
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Storage;
  * @property string hash
  * @property string thumbnail
  * @property string preview
- * @property int content_type_id
+ * @property ContentType content_type
  * @property int creator_id
  * @property int size
  * @property Carbon created_at
@@ -38,20 +39,16 @@ class File extends Model
         'hash',
     ];
 
+    protected $casts = [
+        'content_type' => ContentType::class,
+    ];
+
     /**
      * @return BelongsTo
      */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(Creator::class, 'creator_id', 'id');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function contentType(): BelongsTo
-    {
-        return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
     }
 
     /**
@@ -77,7 +74,7 @@ class File extends Model
      */
     public function scopeImages(Builder $query)
     {
-        return $query->where('content_type_id', ContentType::IMAGE);
+        return $query->where('content_type', ContentType::IMAGE);
     }
 
     /**
@@ -87,6 +84,6 @@ class File extends Model
      */
     public function scopeVideos(Builder $query)
     {
-        return $query->where('content_type_id', ContentType::VIDEO);
+        return $query->where('content_type', ContentType::VIDEO);
     }
 }

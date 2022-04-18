@@ -1,4 +1,4 @@
-FROM php:8.0.3-fpm
+FROM php:8.1.4-fpm
 
 USER root
 
@@ -13,7 +13,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update
 RUN apt-get install -y sudo supervisor cron nginx mariadb-client gnupg gosu curl ca-certificates zip unzip git \
-    libcap2-bin libpng-dev ffmpeg libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+    libcap2-bin libpng-dev ffmpeg python3 python3-pip libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+
+RUN python3 -m pip install -U gallery-dl
 
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
@@ -22,7 +24,7 @@ RUN pecl install -o -f redis && rm -rf /tmp/pear && docker-php-ext-enable redis
 RUN echo '* * * * *   root   cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' >> /etc/crontab
 
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
 
 RUN apt-get update
 RUN apt-get -y autoremove

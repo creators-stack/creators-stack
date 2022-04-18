@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Enums\ContentType;
 
 /**
  * Class Creator.
@@ -15,8 +16,9 @@ use Illuminate\Support\Str;
  * @property int id
  * @property string name
  * @property string username
+ * @property string url
  * @property string root_folder
- * @property string profile_picture
+ * @property ?string profile_picture
  * @property Carbon created_at
  * @property Carbon updated_at
  */
@@ -43,7 +45,7 @@ class Creator extends Model
     public function images(): HasMany
     {
         return $this->files()
-            ->where('content_type_id', ContentType::IMAGE)
+            ->where('content_type', ContentType::IMAGE)
             ->whereNotNull('thumbnail');
     }
 
@@ -53,7 +55,7 @@ class Creator extends Model
     public function videos(): HasMany
     {
         return $this->files()
-            ->where('content_type_id', ContentType::VIDEO)
+            ->where('content_type', ContentType::VIDEO)
             ->whereNotNull('thumbnail');
     }
 

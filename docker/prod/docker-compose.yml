@@ -13,7 +13,7 @@ services:
       APP_URL: 'http://server_ip:7667'
       APP_TIMEZONE: 'Asia/Tokyo'
     volumes:
-      - '/creators/data:/data:ro'
+      - '/creators/data:/data'
       - '/generated/data:/var/www/html/storage/app/public'
     restart: unless-stopped
     depends_on:
