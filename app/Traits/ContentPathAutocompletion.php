@@ -30,4 +30,9 @@ trait ContentPathAutocompletion
             ->map(fn (string $dir) => '/'.Str::afterLast($dir, '/').'/')
             ->toArray();
     }
+
+    public function clearSuggestions()
+    {
+        $this->suggestions = [];
+    }
 }

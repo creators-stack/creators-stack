@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\ContentType;
+use App\Enums\ContentType;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ListImages extends FileListingComponent
 {
     public string $has = 'images';
 
-    protected ?int $content_type = ContentType::IMAGE;
+    protected ?ContentType $content_type = ContentType::IMAGE;
     protected int $per_page = 30;
     protected LengthAwarePaginator $images;
 

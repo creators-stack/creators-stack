@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Jobs\ImportContentFromUrl;
 use App\Models\Creator;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Artisan;
@@ -53,6 +54,11 @@ class ViewCreator extends Component
         $this->creator->delete();
 
         $this->redirectRoute('creators');
+    }
+
+    public function sync()
+    {
+        dispatch(new ImportContentFromUrl($this->creator->id));
     }
 
     protected function setBatch()

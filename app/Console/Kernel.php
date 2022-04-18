@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         /**
-         * Commented while there is no way to track failed jobs and such (Videos to short for generating previews...)
+         * Commented while there is no way to track failed jobs and such (Videos too short for generating previews...)
          */
 //        $schedule->command('crawl:files')
 //            ->everyFifteenMinutes()

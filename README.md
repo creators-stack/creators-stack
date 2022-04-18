@@ -12,6 +12,7 @@ Creators Stack is a web app that let you organize your creators Images and Video
 ## Main Features
 
 - Creators & Content Crawling
+- Creator URL import and sync through [gallery-dl](https://github.com/mikf/gallery-dl)
 - Images and Videos Galleries
 - Thumbnails and configurable Video Previews
 
