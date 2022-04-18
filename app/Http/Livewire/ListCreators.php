@@ -27,6 +27,11 @@ class ListCreators extends Component
         $this->resetPage();
     }
 
+    public function updatingPaginators()
+    {
+        $this->dispatchBrowserEvent('scrollTop');
+    }
+
     public function render()
     {
         $this->creators = Creator::orderByDesc('updated_at')

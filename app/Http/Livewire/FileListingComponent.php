@@ -44,9 +44,8 @@ abstract class FileListingComponent extends Component
         ]);
     }
 
-    public function setPage($page)
+    public function updatingPaginators()
     {
-        $this->page = $page;
         $this->dispatchBrowserEvent('scrollTop');
     }
 
