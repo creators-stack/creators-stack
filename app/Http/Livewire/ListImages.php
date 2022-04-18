@@ -13,10 +13,8 @@ class ListImages extends FileListingComponent
     protected int $per_page = 30;
     protected LengthAwarePaginator $images;
 
-    public function setPage($page)
+    public function updatedPaginators()
     {
-        $this->page = $page;
-        $this->dispatchBrowserEvent('scrollTop');
         $this->dispatchBrowserEvent('initGallery');
     }
 
