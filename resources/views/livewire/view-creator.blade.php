@@ -75,7 +75,7 @@
                                         </a>
                                     </div>
                                     @if ($batch->hasFailures())
-                                        <p class="text-left text-xs text-red-500 mt-1">{{ __(':count failed jobs', ['count' => $last_batch->failedJobs]) }}</p>
+                                        <p class="text-left text-xs text-red-500 mt-1">{{ __(':count failed jobs', ['count' => $batch->failedJobs]) }}</p>
                                     @endif
                                 </div>
                             </div>

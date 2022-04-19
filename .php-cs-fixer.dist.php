@@ -6,10 +6,9 @@ use PhpCsFixer\Finder;
 $rules = [
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
-    'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+    'ordered_imports' => ['sort_algorithm' => 'alpha'],
     'no_unused_imports' => true,
 ];
-
 
 $finder = Finder::create()
     ->in([
@@ -25,7 +24,7 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return Config::create()
+return (new Config())
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true)
