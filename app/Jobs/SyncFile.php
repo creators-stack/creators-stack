@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Helpers\FileSystemHelper;
 use App\Enums\ContentType;
+use App\Helpers\FileSystemHelper;
 use App\Models\Creator;
 use App\Models\File;
 use App\Models\Settings;
@@ -67,8 +67,7 @@ class SyncFile implements ShouldQueue
             default => null,
         };
 
-
-        if (null === $contentType) {
+        if ($contentType === null) {
             Log::warning(sprintf('Unrecognized file %s', $this->path));
             return;
         }
@@ -96,6 +95,7 @@ class SyncFile implements ShouldQueue
 
     /**
      * @param ContentType $contentType
+     *
      * @return File
      */
     protected function getFile(ContentType $contentType): File

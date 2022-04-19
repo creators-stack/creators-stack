@@ -25,7 +25,7 @@ class ImportCreatorFromUrl extends Component
 
     public function toggleModal()
     {
-        $this->modalOpened = !$this->modalOpened;
+        $this->modalOpened = ! $this->modalOpened;
     }
 
     public function import()

@@ -2,13 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Console\Commands\CrawlFilesCommand;
 use App\Jobs\GenerateProfileThumbnail;
 use App\Models\Creator;
 use App\Traits\ContentPathAutocompletion;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -46,7 +43,6 @@ class EditCreator extends Component
 
     public function save()
     {
-
         if ($this->creator->exists) {
             $this->rules['path'] .= sprintf(',%d', $this->creator->id);
         }

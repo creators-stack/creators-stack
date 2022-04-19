@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Jobs\SyncFile;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class SyncFileCommand extends Command
 {

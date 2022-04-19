@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\ContentType;
 use App\Helpers\FileSystemHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Enums\ContentType;
 
 /**
  * Class Creator.

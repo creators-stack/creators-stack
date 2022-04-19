@@ -104,7 +104,8 @@ abstract class FileListingComponent extends Component
                         ->whereColumn('file_id', 'files.id')
                         ->orderByDesc('created_at')
                         ->limit(1),
-                    $this->sort_order);
+                    $this->sort_order
+                );
             }, fn (Builder $query) => $query->orderBy($this->sort_by, $this->sort_order))
             ->paginate($this->per_page);
     }

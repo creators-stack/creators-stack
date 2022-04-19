@@ -10,7 +10,7 @@ class ProcessResponse
 
     public function isSuccessful(): bool
     {
-        return 0 === $this->exitCode;
+        return $this->exitCode === 0;
     }
 
     public function exitCode(): int

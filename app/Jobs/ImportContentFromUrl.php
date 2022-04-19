@@ -66,7 +66,7 @@ class ImportContentFromUrl implements ShouldQueue
                     )
                 )
             );
-        } else if (!empty($result->stderr())) {
+        } elseif (! empty($result->stderr())) {
             Log::warning('gallery-dl process stderr: '.$result->stderr());
         }
     }

@@ -1,13 +1,11 @@
 <?php
 
-use App\Models\ContentType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     private const IMAGE_ID = 1;
     private const VIDEO_ID = 2;
     private const IMAGE = 'Image';
